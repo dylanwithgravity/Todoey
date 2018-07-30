@@ -37,10 +37,14 @@ class CategoryViewController: SwipeTableViewController {
         
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
         
-        // Nil Coalescing Operator, if categories is not nil, return number of categories, if categories is nil then return 1
-        cell.textLabel?.text = categories?[indexPath.row].name ?? "No categories added yet"
-        
-        cell.backgroundColor = UIColor(hexString: categories?[indexPath.row].color ?? "1D9BF6")
+        if let category = categories?[indexPath.row] {
+            cell.textLabel?.text = category.name
+            
+            guard let CategoryColor = UIColor(hexString: category.color) else {fatalError()}
+            
+            cell.backgroundColor = CategoryColor
+            cell.textLabel?.textColor = ContrastColorOf(CategoryColor, returnFlat: true)
+        }
         
         return cell
     }
